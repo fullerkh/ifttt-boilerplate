@@ -11,6 +11,7 @@ router.use(function(req, res, next) {
     console.log('Something is happening.');
 
     // Add service key validation
+    // this is where it checks for the service key and returns the error message if it's not present
     var serviceKey = req.get("IFTTT-Service-Key");
     // var channelKey = req.get("IFTTT-Channel-Key");
     console.log("Status check - serviceKey", serviceKey);
@@ -18,9 +19,7 @@ router.use(function(req, res, next) {
         next();
     }
     else {
-        const errors = [{
-            "message": "Invalid channel key!"
-        }];
+        const errors = [{"message": "Invalid channel key!"}];
         res.status(401).json({ errors });
     }
 });
@@ -40,7 +39,26 @@ router.get('/status', function(req, res) {
 
 router.post('/test/setup', function(req, res) {
     console.log("setup - body", req.body);
-    res.status(200).json({ "data": { "status" : "success"} });
+    res.status(200).json(
+      {
+        "data": {
+          "samples": {
+            "triggers": {
+              "newData": {
+                "data_set": "shootings"
+              }
+            },
+            "actions": {
+              "say-hello": {
+              }
+            },
+            "actionRecordSkipping": {
+              "say-hello": {
+              }
+            }
+          }
+        }
+      });
 });
 
 module.exports = router;

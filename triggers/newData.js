@@ -1,6 +1,7 @@
 var express    = require('express');
 var router = express.Router();
 const data = require('../data.json');
+const neighborhoodFilter = require('../dataSets.json');
 
 router.get('/', function(req, res, next) {
     const models = data.models;
@@ -8,7 +9,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    console.log("setup - body", req.body);
+    console.log("trigger fields --- ", req.body.triggerFields);
+    if (req.body.triggerFields == undefined || req.body.triggerFields.data_set == undefined ){
+        const errors = [{"message": "newData trigger field is undefined"}];
+        res.status(400).json({ errors });  
+    };
     const cars = data.cars;
     var limit = (req.body.limit !== undefined && req.body.limit !== null && req.body.limit !== '') ? req.body.limit : 50; // IF limit is present, just send that much
     var myData = [];
@@ -31,3 +36,4 @@ router.post('/', function(req, res, next) {
 });
 
 module.exports = router;
+
