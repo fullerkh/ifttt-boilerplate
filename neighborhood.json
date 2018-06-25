@@ -1,0 +1,23 @@
+{
+  "data": [
+      {
+          "label" : "all",
+          "value" : "all"
+      },
+      {
+          "label" : "West End", 
+          "value" : "WEST END"
+      },
+      {
+          "label" : "Downtown",
+          "value" : "Downtown"
+      },
+      {
+          "label" : "Norwood",
+          "value" : "Norwood"
+      },
+      {
+          "label" : "OTR",
+          "value" : "OTR"}
+  ]
+}

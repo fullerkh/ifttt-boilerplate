@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     console.log("trigger fields --- ", req.body.triggerFields);
-    if (req.body.triggerFields == undefined || req.body.triggerFields.data_set == undefined ){
+    if (req.body.triggerFields == undefined || req.body.triggerFields.data_set == undefined || req.body.triggerFields.neighborhood == undefined){
         const errors = [{"message": "newData trigger field is undefined"}];
         res.status(400).json({ errors });  
     };
