@@ -13,10 +13,8 @@ module.exports = {
         if (err) {
              // time to write 
             json_obj = grabData(filename.substring(7), searchfield);
-            // doesn't work
-            //json_obj = module.functions.formatData(filename,searchfield);
             console.log(json_obj);
-            //json_obj = module.exports.formatData(json_obj, searchfield);
+            json_obj = module.exports.formatData(json_obj, searchfield);
             json_obj = JSON.stringify(json_obj) 
             //console.log(json_obj);  
             fs.writeFileSync(filename, json_obj, (err) => {
@@ -35,19 +33,24 @@ module.exports = {
         //console.log(date);
         date = date.toISOString().substring(0,10) + "T00:00:00.000";
 
-
-        url = "https://data.cincinnati-oh.gov/resource/" + filename.substring(7);
+ 
+        url = "https://data.cincinnati-oh.gov/resource/" + filename.substring(5);
         query = "?$where=" + dateField + "=%20%27" + date + "%27&$order=" + dateField + "%20DESC";
         url = url + query;
-        console.log(url);           
+        console.log(url);    
+        
+        
+        console.log(httpGet(url));
+        console.log(JSON.parse(httpGet(url)));
+
         var json_obj = JSON.parse(httpGet(url)); 
-        console.log(json_obj);
+
         
         var currentDataJson = []
-        var currentData = returnJson(filename);
+        var currentData = module.exports.returnJson(filename);
 
         console.log("opening up : " + filename+ " ------- this is the current data " + currentData);
-        if (currentData[0][dateField] != json_obj[0][dateField] && json_obj[0] != 'undefined'){
+        if (currentData[0]['date'] != json_obj[0][dateField].substring(0,10) && json_obj[0] != 'undefined'){
             json_obj = grabData(filename.substring(7), dateField);
             json_obj = module.exports.formatData(json_obj, dateField);
             fs.writeFileSync(filename, JSON.stringify(json_obj), (err) => { 
@@ -95,6 +98,7 @@ module.exports = {
                 "key" : fiveDays.length,
                 "timestamp" : timestamp
             };
+            oneday["date"] = json_obj[index-1][searchfield].substring(0,10);
             oneday["meta"] = meta;
             oneday['email_body'] = body;
             oneday['email_subject'] = subject;

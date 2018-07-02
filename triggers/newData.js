@@ -27,19 +27,20 @@ router.post('/', function(req, res, next) {
     };
 
     var limit = (req.body.limit !== undefined && req.body.limit !== null && req.body.limit !== '') ? req.body.limit : 50; // IF limit is present, just send that much
-    var filename = './data/' + req.body.triggerFields.data_set.substring(req.body.triggerFields.data_set.length-14);
+    var filename = 'data/' + req.body.triggerFields.data_set.substring(req.body.triggerFields.data_set.length-14);
         
     console.log
     var index = data["data"].findIndex(x => x.value == req.body.triggerFields.data_set);
     console.log("This is the index of the data field we are looking for : " + index);
     var searchField = data["data"][index]["date"];
     console.log("This is the searchfield which will query and format the data : " + searchField);    
-    var tablePath = 'data/' + req.body.triggerFields.data_set.substring(req.body.triggerFields.data_set.length-14);
-    var table = functions.returnJson(tablePath);
+    //var table = functions.returnJson(tablePath);
+    
+    var table = functions.querySocrata(filename, searchField); // querySocrata: function(filename, dateField)
     
     console.log(JSON.stringify(table));
 
-    table = functions.formatData(table, searchField);
+
     var myData = [];
     for(var i=0; i< Math.min(limit, 5); i++) {
         console.log(table[i]);
