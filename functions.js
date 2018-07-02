@@ -28,37 +28,37 @@ module.exports = {
     },
     // function currently not in use. 
     querySocrata: function(filename, dateField){
+        var json_obj; // to be returned
+        
+        // what is today's date?
         date = new Date();
         date.setDate(date.getDate()-1);
-        //console.log(date);
         date = date.toISOString().substring(0,10) + "T00:00:00.000";
 
- 
-        url = "https://data.cincinnati-oh.gov/resource/" + filename.substring(5);
+        // grab new data
+        url = "https://data.cincinnati-oh.gov/resource/" + filename.substring(filename.length-14); // just want the json bit of the file path
         query = "?$where=" + dateField + "=%20%27" + date + "%27&$order=" + dateField + "%20DESC";
         url = url + query;
-        console.log(url);    
-        
-        
-        console.log(httpGet(url));
-        console.log(JSON.parse(httpGet(url)));
-
-        var json_obj = JSON.parse(httpGet(url)); 
-
-        
-        var currentDataJson = []
+        console.log(filename);    
+        var newData = httpGet(url);
+         
+       // grab current data 
         var currentData = module.exports.returnJson(filename);
-
-        console.log("opening up : " + filename+ " ------- this is the current data " + currentData);
-        if (currentData[0]['date'] != json_obj[0][dateField].substring(0,10) && json_obj[0] != 'undefined'){
+               
+        if (newData == '[]' || newData == undefined || newData[0][dateField] == undefined){ // || newData[0][dateField] == undefined
+            json_obj = currentData;
+        }else if(currentData[0]['date'] != newData[0][dateField].substring(0,10)){
             json_obj = grabData(filename.substring(7), dateField);
             json_obj = module.exports.formatData(json_obj, dateField);
             fs.writeFileSync(filename, JSON.stringify(json_obj), (err) => { 
                 if (err) throw err;
                 console.log('The file has been saved!');
-                return json_obj
-            }); 
-        }else return currentData;   
+            });
+        }else{
+            json_obj = currentData;
+        }
+        
+        return json_obj;
     },   
     httpGet: function(theUrl){
         var xmlHttp = new XMLHttpRequest();
@@ -113,12 +113,9 @@ module.exports = {
         return fiveDays;
     },
     returnJson : function(path){
-        fs.readFile(path, (err, data) => {
-            if (err) throw err;
-            data = JSON.stringify(JSON.parse(data));
-            console.log(" in the returnJSON function data is " + data);
-            return data;
-        });
+        data = fs.readFileSync(path);
+        data = JSON.stringify(JSON.parse(data));
+        return data; 
     }
 }
 
