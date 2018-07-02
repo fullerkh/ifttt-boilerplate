@@ -13,5 +13,4 @@ router.use('/newData', require('./newData'));
 router.use('/newData/fields/data_set/options', require('./triggerFields/dataSets'));
 router.use('/newData/fields/neighborhood/options', require('./triggerFields/neighborhoods'));
 
-
 module.exports = router;

@@ -37,5 +37,6 @@ Great! Everything is up and ready to test. Let's go to endpoint_tests page & cli
 
 You should be able to use this service/triggers into Applets. Customize triggers and service code as per your need. Enjoy!
 
+shootings data = https://data.cincinnati-oh.gov/resource/4cmv-h8ke.json?$query=select%20neighborhood,viccount,type,dateoccurred%20where%20(dateoccurred%20between%20%272018-05-06T00:00:00.000%27%20and%20%272018-06-25T00:00:00.000%27)
 
 

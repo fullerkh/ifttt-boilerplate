@@ -1,0 +1,24 @@
+{
+  "data": [
+      {
+          "label" : "Shootings",
+          "value" : "https://data.cincinnati-oh.gov/resource/4cmv-h8ke.json",
+          "date":"dateoccurred"
+      },
+      {
+          "label" : "Crimes", 
+          "value" : "https://data.cincinnati-oh.gov/resource/ceds-in67.json",
+          "date":"date_reported"
+      },
+      {
+          "label" : "PLAP",
+          "value" : "https://data.cincinnati-oh.gov/resource/y7xe-7ir7.json",
+          "date":"clean_recd_date"
+      },
+      {
+          "label" : "Building Permits",
+          "value" : "https://data.cincinnati-oh.gov/resource/emnx-rw6d.json",
+          "date":"issueddate"
+      }
+  ]
+}

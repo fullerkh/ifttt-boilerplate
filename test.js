@@ -1,7 +1,7 @@
 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-function querySocrata(site, c, date){
+function querySocrata(site, neighborhood, date){
 	date.setDate(date.getDate()-1);
 	date = date.toISOString().substring(0,9) + "T00:00:00.000";
 	fields = "neighborhood,viccount,type,dateoccurred";
@@ -26,6 +26,7 @@ function querySocrata(site, c, date){
 	else  console.log(json_obj);
 	return json_obj
 	
+//https://data.cincinnati-oh.gov/resource/4cmv-h8ke.json?$where=dateoccurred%20between%20%272018-05-06T00:00:00.000%27%20and%20%272018-06-25T00:00:00.000%27
 }
 
 function httpGet(theUrl)
