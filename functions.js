@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const data = require('./data/dataSets.json');
 
 module.exports = {
     createFile: function(filename, searchfield) {
@@ -90,12 +91,13 @@ module.exports = {
             // make sure donedate and date equal each other again for next iteration
             donedate = json_obj[index][searchfield].substring(0,10);
             // format a whole days data here 
-            body = "";
-            subject = "";
+            email = formatEmail(oneday["data"]);
+            body = email['body'];
+            subject = email['subject'];
             var timestamp = Math.round(Date.now() /1000); // To get seconds
             var meta = {
-                "id" : fiveDays.length,
-                "key" : fiveDays.length,
+                "id" : (5-fiveDays.length),
+                "key" : (5-fiveDays.length),
                 "timestamp" : timestamp
             };
             oneday["date"] = json_obj[index-1][searchfield].substring(0,10);
@@ -113,9 +115,9 @@ module.exports = {
         return fiveDays;
     },
     returnJson : function(path){
-        data = fs.readFileSync(path);
-        data = JSON.stringify(JSON.parse(data));
-        return data; 
+        JSONdata = fs.readFileSync(path);
+        JSONdata = JSON.stringify(JSON.parse(JSONdata));
+        return JSONdata; 
     }
 }
 
@@ -149,6 +151,25 @@ function grabData(filename, searchfield){
     }
     return json_obj;
     
+}
+
+function formatEmail(rawData, searchField){
+    // not done yet
+    neighborhood = rawData[0]['neighborhood'];
+    incidents = 1;
+    
+    var index = data["data"].findIndex(x => x.date == searchField);
+    moreInfo = data["data"][index]["dash"];; 
+    
+    while (incidents < rawData.length){
+        if (neighborhood != rawData[incidents]['neighborhood'] && neighborhood != '') neighborhood = '';
+        incidents++;
+    }
+    email_sub = ""; 
+            
+    email_body = "";
+    
+    return {'email_sub' : email_sub, 'email_body' : email_body};
 }
 
 //https://data.cincinnati-oh.gov/resource/p2sk-mhnu.json?$where=approved_by_city_council%20between%20%272017-06-05T00:00:00.000%27%20and%20%272018-06-25T00:00:00.000%27

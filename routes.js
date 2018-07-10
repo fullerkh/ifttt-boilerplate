@@ -47,6 +47,10 @@ router.post('/test/setup', function(req, res) {
               "newData": {
                 "data_set": "https://data.cincinnati-oh.gov/resource/4cmv-h8ke.json",
                 "neighborhood": "AVONDALE"
+              },
+              "pullData": {
+                "data_set": "https://data.cincinnati-oh.gov/resource/4cmv-h8ke.json",
+                "neighborhood": "AVONDALE"
               }
             },
             "actions": {
